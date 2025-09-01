@@ -109,11 +109,11 @@
   </div>
 <div class="container">
   <div id="variant1" class="half" title="Choose Dark Theme (Variant A)">
-    <iframe src="/c.html" title="Dark Theme Variant A"></iframe>
+    <iframe src="c.html" title="Dark Theme Variant A"></iframe>
     <div class="label variant-a">Dark Theme [A]</div>
   </div>
   <div id="variant2" class="half" title="Choose Light Theme (Variant B)">
-    <iframe src="/b.html" title="Light Theme Variant B"></iframe>
+    <iframe src="b.html" title="Light Theme Variant B"></iframe>
     <div class="label variant-b">Light Theme [B]</div>
   </div>
 </div>
@@ -146,17 +146,17 @@
     .then(resp => {
       console.log('Data sent:', resp);
       if (chosenVariant === 'variant1') {
-        window.location.href = '/c.html';
+        window.location.href = 'c.html';
       } else {
-        window.location.href = '/b.html';
+        window.location.href = 'b.html';
       }
     })
     .catch(err => {
       console.error('Error sending data:', err);
       if (chosenVariant === 'variant1') {
-        window.location.href = '/c.html';
+        window.location.href = 'c.html';
       } else {
-        window.location.href = '/b.html';
+        window.location.href = 'b.html';
       }
     });
   }
@@ -166,3 +166,4 @@
 </script>
 </body>
 </html>
+
