@@ -522,23 +522,26 @@
         // ✅ Fetch Variant C metrics
         const backendURL = 'https://ab-proxy.rishab-aggarwal28.workers.dev';
 
-        function fetchAndDisplayMetrics() {
-    fetch(backendURL)
-      .then(res => res.json())
-      .then(data => {
-        document.getElementById('statsText').innerText =
-          ` A/B Test
-          This Variant: 
-          Preferred by: ${(data.preferencePercentA * 100).toFixed(2)}%\n` +
-          `Avg time: ${data.avgSessionTimeA.toFixed(1)}s\n`
-      })
-      .catch(err => {
-        console.error('Error fetching metrics:', err);
-        document.getElementById('statsText').innerText = 'Stats unavailable';
-      });
-  }
+      function fetchAndDisplayMetrics() {
+  fetch(backendURL)
+    .then(res => res.json())
+    .then(data => {
+      const prefA = Math.round(data.preferencePercentA * 100); // Round variant A percentage to integer
 
-  fetchAndDisplayMetrics();
+      document.getElementById('statsText').innerText =
+        ` A/B Test
+        This Variant: 
+        Preferred by: ${prefA}%\n` +  // Show variant A percentage with no decimals
+        `Avg time: ${data.avgSessionTimeA.toFixed(1)}s\n`;
+    })
+    .catch(err => {
+      console.error('Error fetching metrics:', err);
+      document.getElementById('statsText').innerText = 'Stats unavailable';
+    });
+}
+
+fetchAndDisplayMetrics();
+
 
   // Add button click handler for switching variant
   document.addEventListener('DOMContentLoaded', () => {
@@ -650,5 +653,6 @@
 </script>
 </body>
 </html>
+
 
 
