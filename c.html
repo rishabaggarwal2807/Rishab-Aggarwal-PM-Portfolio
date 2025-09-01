@@ -485,81 +485,87 @@
         </div>
     </footer>
 
-    <script>
-
-            // Hide metrics if inside iframe (optional, if you preview this inside iframe)
+   <script>
+    // Hide metrics if inside iframe
     if (window.self !== window.top) {
       const metrics = document.getElementById('stats');
       if (metrics) metrics.style.display = 'none';
     }
 
-        // Mobile menu toggle
-        const mobileMenuBtn = document.getElementById('mobile-menu-btn');
-        const mobileMenu = document.getElementById('mobile-menu');
-        mobileMenuBtn.addEventListener('click', () => {
-          mobileMenu.classList.toggle('hidden');
+    // Mobile menu toggle
+    const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+    const mobileMenu = document.getElementById('mobile-menu');
+    if (mobileMenuBtn) {
+      mobileMenuBtn.addEventListener('click', () => {
+        mobileMenu.classList.toggle('hidden');
+      });
+    }
+
+    // Animate sections on scroll
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) entry.target.classList.add('visible');
+      });
+    }, { threshold: 0.15 });
+    document.querySelectorAll('.section-fade').forEach(el => observer.observe(el));
+
+    document.addEventListener('DOMContentLoaded', () => {
+      const closeBtn = document.getElementById('closeMetricsBtn');
+      const metricsBox = document.getElementById('stats');
+      if (closeBtn && metricsBox) {
+        closeBtn.addEventListener('click', () => {
+          metricsBox.style.display = 'none';
         });
-      
-        // Animate sections on scroll
-        const observer = new IntersectionObserver(entries => {
-          entries.forEach(entry => {
-            if (entry.isIntersecting) entry.target.classList.add('visible');
-          });
-        }, { threshold: 0.15 });
-        document.querySelectorAll('.section-fade').forEach(el => observer.observe(el));
-      
-        document.addEventListener('DOMContentLoaded', () => {
-    const closeBtn = document.getElementById('closeMetricsBtn');
-    const metricsBox = document.getElementById('stats');
-    
-    if (closeBtn && metricsBox) {
-      closeBtn.addEventListener('click', () => {
-        metricsBox.style.display = 'none';
+      }
+    });
+
+    // ✅ Session Tracking Script
+    (function() {
+      const VARIANT = "variant1"; // This is c.html (variant1)
+      const backendURL = "https://ab-proxy.rishab-aggarwal28.workers.dev";
+
+      if (!sessionStorage.getItem("userID")) {
+        sessionStorage.setItem("userID", "user_" + Math.random().toString(36).substr(2, 9));
+      }
+      const userID = sessionStorage.getItem("userID");
+
+      if (!sessionStorage.getItem("sessionStart")) {
+        sessionStorage.setItem("sessionStart", new Date().toISOString());
+      }
+
+      if (!sessionStorage.getItem("variantTimes")) {
+        sessionStorage.setItem("variantTimes", JSON.stringify({variant1: 0, variant2: 0}));
+      }
+
+      let variantTimes = JSON.parse(sessionStorage.getItem("variantTimes"));
+      let startTime = Date.now();
+
+      function saveTime() {
+        const duration = (Date.now() - startTime) / 1000;
+        variantTimes[VARIANT] += duration;
+        sessionStorage.setItem("variantTimes", JSON.stringify(variantTimes));
+      }
+
+      window.addEventListener("beforeunload", function(event) {
+        saveTime();
+        const times = JSON.parse(sessionStorage.getItem("variantTimes"));
+        const chosenVariant = times.variant1 >= times.variant2 ? "variant1" : "variant2";
+        const sessionStart = sessionStorage.getItem("sessionStart");
+        const sessionEnd = new Date().toISOString();
+        const sessionDuration = times.variant1 + times.variant2;
+
+        navigator.sendBeacon(backendURL, JSON.stringify({
+          userID,
+          chosenVariant,
+          sessionStart,
+          sessionEnd,
+          sessionDuration
+        }));
       });
-    }
-  });
-
-        // ✅ Fetch Variant C metrics
-        const backendURL = 'https://ab-proxy.rishab-aggarwal28.workers.dev';
-
-        function fetchAndDisplayMetrics() {
-    fetch(backendURL)
-      .then(res => res.json())
-      .then(data => {
-        document.getElementById('statsText').innerText =
-          ` A/B Test
-          This Variant: 
-          Preferred by: ${(data.preferencePercentA * 100).toFixed(2)}%\n` +
-          `Avg time: ${data.avgSessionTimeA.toFixed(1)}s\n`
-      })
-      .catch(err => {
-        console.error('Error fetching metrics:', err);
-        document.getElementById('statsText').innerText = 'Stats unavailable';
-      });
-  }
-
-  fetchAndDisplayMetrics();
-
-  // Add button click handler for switching variant
-  document.addEventListener('DOMContentLoaded', () => {
-    const switchBtn = document.getElementById('switchVariantBtn');
-    if (switchBtn) {
-      switchBtn.addEventListener('click', () => {
-        window.location.href = 'b.html';  // Redirect to light theme - relative path fixed
-      });
-
-      // Optionally: subtle hover effect
-      switchBtn.addEventListener('mouseover', () => {
-        switchBtn.style.backgroundColor = 'rgba(255,255,255,0.35)';
-      });
-      switchBtn.addEventListener('mouseout', () => {
-        switchBtn.style.backgroundColor = 'rgba(255,255,255,0.2)';
-      });
-    }
-  });
-
-</script>
+    })();
+  </script>
 </body>
 </html>
+
 
 
