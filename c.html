@@ -1,0 +1,572 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+<!-- Google Tag Manager -->
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+    new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+    j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+    'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+    })(window,document,'script','dataLayer','GTM-PQ4WPSNL');</script>
+    <!-- End Google Tag Manager -->
+
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Rishab Aggarwal | Product Manager Portfolio</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  
+
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+    body { font-family: 'Inter', sans-serif; }
+    .gradient-bg { background: linear-gradient(135deg, #0d9488 0%, #f97316 100%); }
+    .card-hover { transition: all 0.3s ease; }
+    .card-hover:hover { transform: translateY(-5px); box-shadow: 0 20px 40px rgba(0,0,0,0.1); }
+    .section-fade { opacity: 0; transform: translateY(30px); transition: all 0.6s ease; }
+    .section-fade.visible { opacity: 1; transform: translateY(0); }
+    .nav-link { position: relative; }
+    .nav-link::after { content: ''; position: absolute; bottom: -2px; left: 0; width: 0; height: 2px; background: rgba(255,255,255,0.8); transition: width 0.3s ease; }
+    .nav-link:hover::after, .nav-link.active::after { width: 100%; }
+
+    /* ✅ Metrics box styling */
+    .stats {
+      position: fixed;
+      top: 100px;
+      right: 20px;
+      background: rgba(0, 0, 0, 0.1); /* 50% transparency */
+      color: #010509;
+      border: 1px solid #374151;
+      border-radius: 12px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.25);
+      padding: 4px 6px;
+      font-size: 0.95rem;
+      line-height: 1.4;
+      
+      z-index: 200;
+    }
+    .stats.C {
+      border-left: 5px solid #f97316; /* orange accent for Variant C */
+    }
+  </style>
+</head>
+
+<body class="bg-gray-50" overflow-x-hidden>
+
+    <!-- Google Tag Manager (noscript) -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-PQ4WPSNL"
+    height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+    <!-- End Google Tag Manager (noscript) -->
+
+    <!-- ✅ Metrics Box -->
+    <div id="stats" class="stats C" >
+        <div id="statsText">Loading stats…</div>
+
+        <button id="closeMetricsBtn" title="Close metrics" style="
+    position: absolute;
+    top: 6px;
+    right: 8px;
+    border: none;
+    color: #504f4f;
+    font-size: 1.2rem;
+    cursor: pointer;
+    user-select: none;
+    padding: 0;
+    line-height: 1;
+  ">
+    &times;
+        <button id="switchVariantBtn" style="
+        margin-top: 10px;
+        width: 100%;
+        background-color: rgba(255,255,255,0.6);
+        color: #02060a;
+        border: none;
+        border-radius: 6px;
+        font-size: 0.75rem;
+        cursor: pointer;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+        white-space: normal;
+        padding: 6px 0;
+      ">
+        Switch to <br> Light Theme
+      </button>
+      </div>
+  
+    <!-- Navigation -->
+    <nav class="fixed top-6 left-1/2 transform -translate-x-1/2 z-50">
+      <div class="bg-gray-900/90 backdrop-blur-xl rounded-full px-8 py-4 shadow-2xl border border-gray-700/50">
+        <div class="flex items-center space-x-8">
+          <div class="text-lg font-bold bg-gradient-to-r from-teal-400 to-orange-400 bg-clip-text text-transparent">RA</div>
+          <div class="hidden md:flex space-x-6">
+            <a href="#home" class="nav-link text-white/80 hover:text-white font-medium text-sm">Home</a>
+            <a href="#about" class="nav-link text-white/80 hover:text-white font-medium text-sm">About Me</a>
+            <a href="#portfolio" class="nav-link text-white/80 hover:text-white font-medium text-sm">Portfolio</a>
+            <a href="#contact" class="nav-link text-white/80 hover:text-white font-medium text-sm">Contact</a>
+          </div>
+          <button id="mobile-menu-btn" class="md:hidden p-2 text-white">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+            </svg>
+          </button>
+        </div>
+      </div>
+      <div id="mobile-menu" class="hidden md:hidden mt-4 bg-gray-900/90 backdrop-blur-xl rounded-2xl px-6 py-4 shadow-2xl border border-gray-700/50">
+        <div class="space-y-3">
+          <a href="#home" class="block py-2 text-white/80 hover:text-white text-sm">Home</a>
+          <a href="#about" class="block py-2 text-white/80 hover:text-white text-sm">About Me</a>
+          <a href="#portfolio" class="block py-2 text-white/80 hover:text-white text-sm">Portfolio</a>
+          <a href="#contact" class="block py-2 text-white/80 hover:text-white text-sm">Contact</a>
+        </div>
+      </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section id="home" class="gradient-bg min-h-screen flex items-center relative overflow-hidden">
+        <!-- Animated background elements -->
+        
+        
+        <div class="max-w-6xl mx-auto px-6 py-32 relative z-10">
+            <div class="text-center text-white">
+              <!-- Profile Image Placeholder -->
+              <div>
+                <div class="mx-auto mb-6 relative overflow-hidden rounded-full w-[350px] h-[350px] sm:w-64 sm:h-64 md:w-80 md:h-80 lg:w-[400px] lg:h-[400px]">
+                    <img
+                      src="/Rishab Image 2.JPG"
+                      alt="Rishab Aggarwal Profile Image"
+                      class="rounded-full object-cover w-full h-full block"
+                      style="display: block; transform: scale(1.2); transform-origin: center;"
+                    />
+                  </div>
+                <div style="clear: both;"></div> <!-- Clear floats just in case -->
+                <p class="text-sm text-white/70 mb-2" style="font-size: 20px;">Product Manager Portfolio</p>
+              </div>
+       
+              <h1 class="text-2xl md:text-5xl font-bold mb-6 section-fade">
+                <span class="bg-gradient-to-r from-white to-white/80 bg-clip-text text-transparent">Hey, I'm Rishab</span>
+              </h1>
+              <p class="text-xl md:text-2xl mb-12 max-w-4xl mx-auto leading-relaxed section-fade text-white/90">
+                I find joy in building things that create a positive impact and simplify lives.
+              </p>
+
+                
+                <!-- About Card -->
+                <section id="about">
+                <div class="bg-white/10 backdrop-blur-md rounded-3xl p-8 md:p-12 max-w-5xl mx-auto text-left section-fade border border-white/20 shadow-2xl">
+                    <div class="flex items-center mb-8">
+                        <div class="w-12 h-12 bg-gradient-to-r from-teal-400 to-orange-400 rounded-xl flex items-center justify-center mr-4">
+                            <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path>
+                            </svg>
+                        </div>
+                        <h2 class="text-3xl font-bold">About Me</h2>
+                    </div>
+                    
+                    <p class="text-lg leading-relaxed mb-8 text-white/90">I am a <strong>Product Manager</strong> with about <strong>8 years of experience</strong> building products with only one motivation of <strong>impacting lives positively and meaningfully</strong>. I have a diverse experience of working across <strong>Invoicing & Taxation, Payments & Fintech, Media & OTT, Advertising and Mobility</strong> industries.</p>
+                    
+                    <h3 class="text-xl font-semibold mb-6 flex items-center">
+                        You can expect me to:
+                    </h3>
+                    
+                    <div class="grid md:grid-cols-2 gap-4">
+                        <div class="flex items-start">
+                            <div class="w-6 h-6 bg-gradient-to-r from-teal-400 to-orange-400 rounded-full flex items-center justify-center mr-3 mt-1 flex-shrink-0">
+                                <svg class="w-3 h-3 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path>
+                                </svg>
+                            </div>
+                            <span class="text-white/90">institute a balanced short term & long-term product vision</span>
+                        </div>
+                        <div class="flex items-start">
+                            <div class="w-6 h-6 bg-gradient-to-r from-teal-400 to-orange-400 rounded-full flex items-center justify-center mr-3 mt-1 flex-shrink-0">
+                                <svg class="w-3 h-3 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path>
+                                </svg>
+                            </div>
+                            <span class="text-white/90">own and maintain a strategic backlog in sync with that vision</span>
+                        </div>
+                        <div class="flex items-start">
+                            <div class="w-6 h-6 bg-gradient-to-r from-teal-400 to-orange-400 rounded-full flex items-center justify-center mr-3 mt-1 flex-shrink-0">
+                                <svg class="w-3 h-3 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path>
+                                </svg>
+                            </div>
+                            <span class="text-white/90">drive the backlog initiatives to success with end-to-end ownership</span>
+                        </div>
+                        <div class="flex items-start">
+                            <div class="w-6 h-6 bg-gradient-to-r from-teal-400 to-orange-400 rounded-full flex items-center justify-center mr-3 mt-1 flex-shrink-0">
+                                <svg class="w-3 h-3 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path>
+                                </svg>
+                            </div>
+                            <span class="text-white/90">lead a product team and coach junior PMs</span>
+                        </div>
+                        <div class="flex items-start">
+                            <div class="w-6 h-6 bg-gradient-to-r from-teal-400 to-orange-400 rounded-full flex items-center justify-center mr-3 mt-1 flex-shrink-0">
+                                <svg class="w-3 h-3 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path>
+                                </svg>
+                            </div>
+                            <span class="text-white/90">Vibe code and champion AI</span>
+                        </div>
+                        <div class="flex items-start">
+                            <div class="w-6 h-6 bg-gradient-to-r from-teal-400 to-orange-400 rounded-full flex items-center justify-center mr-3 mt-1 flex-shrink-0">
+                                <svg class="w-3 h-3 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path>
+                                </svg>
+                            </div>
+                            <span class="text-white/90">and most importantly, manage all the stakeholders effectively with grace.</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    </section>
+
+    <!-- Principles & Skills Section -->
+    <section id="principles" class="py-20 bg-gradient-to-br from-emerald-50 to-teal-50">
+        <div class="max-w-6xl mx-auto px-6">
+            <div class="grid md:grid-cols-2 gap-12">
+                <!-- Principles -->
+                <div class="section-fade">
+                    <h2 class="text-4xl font-bold mb-8 text-gray-800">My Product Management Philosophy</h2>
+                    <div class="space-y-4">
+
+                        <div class="flex items-start">
+                            <span class="text-teal-500 mr-3 text-xl">•</span>
+                            <span class="text-gray-700">Try stepping into the <strong>shoes of your customer</strong> as often as possible</span>
+                        </div>
+
+                        <div class="flex items-start">
+                            <span class="text-teal-500 mr-3 text-xl">•</span>
+                            <span class="text-gray-700"><strong>Know your product</strong> like the back of your hand</span>
+                        </div>
+                        <div class="flex items-start">
+                            <span class="text-teal-500 mr-3 text-xl">•</span>
+                            <span class="text-gray-700">Never be afraid of <strong>digging deep</strong> and getting your hands dirty in <strong>research/data</strong></span>
+                        </div>
+                        <div class="flex items-start">
+                            <span class="text-teal-500 mr-3 text-xl">•</span>
+                            <span class="text-gray-700"><strong>Hypothesis testing</strong> is a crucial step of the process</span>
+                        </div>
+                        <div class="flex items-start">
+                            <span class="text-teal-500 mr-3 text-xl">•</span>
+                            <span class="text-gray-700"><strong>Execution is everything</strong>- ship small and often</span>
+                        </div>
+                        <div class="flex items-start">
+                            <span class="text-teal-500 mr-3 text-xl">•</span>
+                            <span class="text-gray-700">Obsess over <strong>measurement: Metrics, KPIs, OKRs</strong></span>
+                        </div>
+                        <div class="flex items-start">
+                            <span class="text-teal-500 mr-3 text-xl">•</span>
+                            <span class="text-gray-700">The most <strong>tech heavy solution</strong> may not be the <strong>best solution</strong> always</span>
+                        </div>
+                        <div class="flex items-start">
+                            <span class="text-teal-500 mr-3 text-xl">•</span>
+                            <span class="text-gray-700">Trust the <strong>product management process</strong>, and you shall see!</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Skills -->
+                <div class="section-fade">
+                    <h2 class="text-4xl font-bold mb-8 text-gray-800">Skills & Toolkit</h2>
+                    
+                    <div class="mb-8">
+                        <h3 class="text-xl font-semibold mb-4 text-teal-600">Product & Analytical</h3>
+                        <div class="flex flex-wrap gap-2">
+                            <span class="bg-teal-100 text-teal-800 px-3 py-1 rounded-full text-sm">Product Strategy</span>
+                            <span class="bg-teal-100 text-teal-800 px-3 py-1 rounded-full text-sm">Market Research</span>
+                            <span class="bg-teal-100 text-teal-800 px-3 py-1 rounded-full text-sm">Data Analytics</span>
+                            <span class="bg-teal-100 text-teal-800 px-3 py-1 rounded-full text-sm">A/B Testing</span>
+                            <span class="bg-teal-100 text-teal-800 px-3 py-1 rounded-full text-sm">UX Design</span>
+                            <span class="bg-teal-100 text-teal-800 px-3 py-1 rounded-full text-sm">User Stories</span>
+                            <span class="bg-teal-100 text-teal-800 px-3 py-1 rounded-full text-sm">Go-to-Market</span>
+                            <span class="bg-teal-100 text-teal-800 px-3 py-1 rounded-full text-sm">MVP</span>
+                            <span class="bg-teal-100 text-teal-800 px-3 py-1 rounded-full text-sm">OKRs</span>
+                        </div>
+                    </div>
+
+                    <div class="mb-8">
+                        <h3 class="text-xl font-semibold mb-4 text-orange-600">AI & Technical</h3>
+                        <div class="flex flex-wrap gap-2">
+                            <span class="bg-orange-100 text-orange-800 px-3 py-1 rounded-full text-sm">Vercel V0</span>
+                            <span class="bg-orange-100 text-orange-800 px-3 py-1 rounded-full text-sm">n8n</span>
+                            <span class="bg-orange-100 text-orange-800 px-3 py-1 rounded-full text-sm">Claude</span>
+                            <span class="bg-orange-100 text-orange-800 px-3 py-1 rounded-full text-sm">ChatGPT</span>
+                            <span class="bg-orange-100 text-orange-800 px-3 py-1 rounded-full text-sm">SQL</span>
+                            <span class="bg-orange-100 text-orange-800 px-3 py-1 rounded-full text-sm">Python</span>
+                            <span class="bg-orange-100 text-orange-800 px-3 py-1 rounded-full text-sm">Figma</span>
+                            <span class="bg-orange-100 text-orange-800 px-3 py-1 rounded-full text-sm">Jira</span>
+                            <span class="bg-orange-100 text-orange-800 px-3 py-1 rounded-full text-sm">Agile</span>
+                        </div>
+                    </div>
+
+                    <div>
+                        <h3 class="text-xl font-semibold mb-4 text-emerald-600">Artifacts I Utilise</h3>
+                        <div class="flex flex-wrap gap-2">
+                            <span class="bg-emerald-100 text-emerald-800 px-3 py-1 rounded-full text-sm">PRDs</span>
+                            <span class="bg-emerald-100 text-emerald-800 px-3 py-1 rounded-full text-sm">Vision & Strategy Documents</span>
+                            <span class="bg-emerald-100 text-emerald-800 px-3 py-1 rounded-full text-sm">Epics and User Stories</span>
+                            <span class="bg-emerald-100 text-emerald-800 px-3 py-1 rounded-full text-sm">Research Reports</span>
+                            <span class="bg-emerald-100 text-emerald-800 px-3 py-1 rounded-full text-sm">User Personas</span>
+                            <span class="bg-emerald-100 text-emerald-800 px-3 py-1 rounded-full text-sm">PRFAQs</span>
+                            <span class="bg-emerald-100 text-emerald-800 px-3 py-1 rounded-full text-sm">Release Notes</span>
+                            <span class="bg-emerald-100 text-emerald-800 px-3 py-1 rounded-full text-sm">Product Playbook</span>
+                            <span class="bg-emerald-100 text-emerald-800 px-3 py-1 rounded-full text-sm">Business Model Canvas (BMC)</span>
+                            <span class="bg-emerald-100 text-emerald-800 px-3 py-1 rounded-full text-sm">Jobs-to-be-Done (JTBD)</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Problems Solved -->
+            <div class="mt-16 section-fade">
+                <h2 class="text-4xl font-bold mb-8 text-gray-800 text-center">The kind of problems I have designed solutions for:</h2>
+                <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    <div class="bg-gradient-to-br from-red-50 to-red-100 p-6 rounded-xl card-hover">
+                        <div class="text-3xl mb-3">🔑</div>
+                        <h3 class="font-semibold mb-2 text-red-800">Conversion Drops</h3>
+                        <p class="text-red-700 text-sm">Optimized <strong>subscription funnels</strong> and <strong>payment journeys</strong> for higher conversions.</p>
+                    </div>
+                    <div class="bg-gradient-to-br from-pink-50 to-pink-100 p-6 rounded-xl card-hover">
+                        <div class="text-3xl mb-3">💔</div>
+                        <h3 class="font-semibold mb-2 text-pink-800">User Churn</h3>
+                        <p class="text-pink-700 text-sm">Reduced cancellations via <strong>churn insights</strong> & <strong>VoC programs</strong>.</p>
+                    </div>
+                    <div class="bg-gradient-to-br from-blue-50 to-blue-100 p-6 rounded-xl card-hover">
+                        <div class="text-3xl mb-3">🧭</div>
+                        <h3 class="font-semibold mb-2 text-blue-800">Complex Journeys</h3>
+                        <p class="text-blue-700 text-sm">Simplified <strong>user flows</strong>, boosting <strong>upgrades and NPS</strong>.</p>
+                    </div>
+                    <div class="bg-gradient-to-br from-indigo-50 to-indigo-100 p-6 rounded-xl card-hover">
+                        <div class="text-3xl mb-3">📊</div>
+                        <h3 class="font-semibold mb-2 text-indigo-800">Lack of Insights</h3>
+                        <p class="text-indigo-700 text-sm">Built <strong>analytics dashboards</strong> with embedded <strong>financial & user data</strong>.</p>
+                    </div>
+                    <div class="bg-gradient-to-br from-purple-50 to-purple-100 p-6 rounded-xl card-hover">
+                        <div class="text-3xl mb-3">📩</div>
+                        <h3 class="font-semibold mb-2 text-purple-800">Engagement Gaps</h3>
+                        <p class="text-purple-700 text-sm">Launched <strong>real-time communication tools</strong> for user engagement.</p>
+                    </div>
+                    <div class="bg-gradient-to-br from-green-50 to-green-100 p-6 rounded-xl card-hover">
+                        <div class="text-3xl mb-3">🔗</div>
+                        <h3 class="font-semibold mb-2 text-green-800">Silos in Payments & Order Management</h3>
+                        <p class="text-green-700 text-sm">Designed integrated systems that unify <strong>fragmented payment and order workflows</strong></p>
+                      </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Portfolio Section -->
+    <section id="portfolio" class="py-20" style="background: linear-gradient(135deg, #f9d1a8 0%, #efb497 50%);">
+        <div class="max-w-6xl mx-auto px-6">
+          <h2 class="text-4xl font-bold mb-12 text-gray-800 text-center section-fade">Portfolio Projects</h2>
+          <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+            
+            <a href="https://rishabaggarwal2807.github.io/End-my-Search/" class="card-link">
+              <div class="bg-white p-8 rounded-xl shadow-lg card-hover section-fade cursor-pointer">
+                <div class="w-full h-32 bg-gray-100 rounded-lg mb-4 flex items-center justify-center overflow-hidden">
+                  <img src="/Screenshot 2025-08-28 133323.png" alt="Endmysearch" class="w-full h-full object-cover" />
+                </div>
+                <h3 class="text-xl font-semibold mb-3 text-gray-800">Endmysearch</h3>
+                <p class="text-gray-600">A platform designed to solve search fatigue by rethinking discovery.</p>
+              </div>
+            </a>
+            
+            <a href="/Cricket Score Platform Case.pdf" target="_blank" class="card-link">
+              <div class="bg-white p-8 rounded-xl shadow-lg card-hover section-fade cursor-pointer">
+                <div class="w-full h-32 bg-gray-100 rounded-lg mb-4 flex items-center justify-center overflow-hidden">
+                  <img src="/Cricket Score Platform.jpg" alt="Cricket Scores Platform" class="w-full h-full object-cover" />
+                </div>
+                <h3 class="text-xl font-semibold mb-3 text-gray-800">Cricket Scores Platform</h3>
+                <p class="text-gray-600">Case study on product improvement opportunities.</p>
+              </div>
+            </a>
+            
+            <a href="/Sports OTT Case.pdf" target="_blank" class="card-link">
+              <div class="bg-white p-8 rounded-xl shadow-lg card-hover section-fade cursor-pointer">
+                <div class="w-full h-32 bg-gray-100 rounded-lg mb-4 flex items-center justify-center overflow-hidden">
+                  <img src="/Sports OTT thumbnail.jpg" alt="Sports OTT Platform" class="w-full h-full object-cover" />
+                </div>
+                <h3 class="text-xl font-semibold mb-3 text-gray-800">Sports OTT Platform</h3>
+                <p class="text-gray-600">Feature recommendation framework to boost engagement.</p>
+              </div>
+            </a>
+            
+          </div>
+        </div>
+      </section>
+      
+
+    <!-- Beyond Work Section -->
+    <section id="beyond" class="py-20" style="background: linear-gradient(135deg, #c1dbcbdc 0%, #74b2aaaf 100%);">
+        <div class="max-w-6xl mx-auto px-6">
+            <h2 class="text-4xl font-bold mb-12 text-gray-800 text-center section-fade">Beyond Work</h2>
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <div class="text-center section-fade">
+                    <div class="w-16 h-16 bg-purple-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <span class="text-2xl">🎵</span>
+                    </div>
+                    <h3 class="text-xl font-semibold mb-2">Music (All Genres)</h3>
+                </div>
+                
+                <div class="text-center section-fade">
+                    <div class="w-16 h-16 bg-orange-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <span class="text-2xl">🏏</span>
+                    </div>
+                    <h3 class="text-xl font-semibold mb-2">Sports (Partake and follow!)</h3>
+                </div>
+                
+                <div class="text-center section-fade">
+                    <div class="w-16 h-16 bg-yellow-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <span class="text-2xl">📚</span>
+                    </div>
+                    <h3 class="text-xl font-semibold mb-2">History (Especially WW2!)</h3>
+                </div>
+                
+                <div class="text-center section-fade">
+                    <div class="w-16 h-16 bg-teal-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <span class="text-2xl">✈️</span>
+                    </div>
+                    <h3 class="text-xl font-semibold mb-2">Travel (& experiences)</h3>
+                </div>
+                
+                <div class="text-center section-fade">
+                    <div class="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <span class="text-2xl">🎬</span>
+                    </div>
+                    <h3 class="text-xl font-semibold mb-2">Movies (Recos welcome!)</h3>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="py-20 gradient-bg">
+        <div class="max-w-4xl mx-auto px-6 text-center">
+            <h2 class="text-4xl font-bold mb-12 text-white section-fade">Contact Details</h2>
+            <div class="grid md:grid-cols-3 gap-8">
+                
+                <div class="bg-white/10 backdrop-blur-md rounded-xl p-8 card-hover section-fade text-center flex flex-col items-center">
+                    <div class="text-6xl mb-5 select-none">📧</div>
+                    <h3 class="text-xl font-semibold text-white">Email</h3>
+                    <a href="mailto:rishab.aggarwal28@gmail.com" class="text-white/80 break-words hover:underline">
+                      rishab.aggarwal28@gmail.com
+                    </a>
+                  </div>
+                
+                  <div class="bg-white/10 backdrop-blur-md rounded-xl p-8 card-hover section-fade text-center flex flex-col items-center"
+     style="max-width: 260px; word-wrap: break-word;">
+  <div class="text-4xl mb-4 select-none">🔗</div>
+  <h3 class="text-xl font-semibold text-white mb-2">LinkedIn</h3>
+  <a href="https://www.linkedin.com/in/1rishabaggarwal/" target="_blank" rel="noopener noreferrer"
+     style="word-wrap: break-word; overflow-wrap: anywhere; max-width: 100%;"
+     class="text-white/80 hover:underline">
+    https://www.linkedin.com/in/1rishabaggarwal/
+  </a>
+</div>
+                
+                <div class="bg-white/10 backdrop-blur-md rounded-xl p-8 card-hover section-fade text-center flex flex-col items-center">
+                    <div class="text-4xl mb-4 select-none">📱</div>
+                    <h3 class="text-xl font-semibold text-white mb-2">Mobile Number</h3>
+                    <p class="text-white/80 break-words max-w-xs">+91 9899307601</p>
+                  </div>
+                  
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 text-white py-8">
+        <div class="max-w-6xl mx-auto px-6 text-center">
+            <p>&copy; 2024 Rishab Aggarwal. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+
+            // Hide metrics if inside iframe (optional, if you preview this inside iframe)
+    if (window.self !== window.top) {
+      const metrics = document.getElementById('stats');
+      if (metrics) metrics.style.display = 'none';
+    }
+
+    
+
+        // Mobile menu toggle
+        const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+        const mobileMenu = document.getElementById('mobile-menu');
+        mobileMenuBtn.addEventListener('click', () => {
+          mobileMenu.classList.toggle('hidden');
+        });
+      
+        // Animate sections on scroll
+        const observer = new IntersectionObserver(entries => {
+          entries.forEach(entry => {
+            if (entry.isIntersecting) entry.target.classList.add('visible');
+          });
+        }, { threshold: 0.15 });
+        document.querySelectorAll('.section-fade').forEach(el => observer.observe(el));
+      
+
+        document.addEventListener('DOMContentLoaded', () => {
+  const closeBtn = document.getElementById('closeMetricsBtn');
+  const metricsBox = document.getElementById('stats');
+  
+  if (closeBtn && metricsBox) {
+    closeBtn.addEventListener('click', () => {
+      metricsBox.style.display = 'none';
+    });
+  }
+});
+
+
+
+        // ✅ Fetch Variant C metrics
+        const backendURL = 'https://script.google.com/macros/s/AKfycbzV4ZaMyUvnD2K9s_hjLffDb4ZRl9hmb3PBHSMXpZo0azCymSK623_gKRcxzCr-xkVL2Q/exec';
+
+        function fetchAndDisplayMetrics() {
+  fetch(backendURL)
+    .then(res => res.json())
+    .then(data => {
+      document.getElementById('statsText').innerText =
+        ` A/B Test
+        This Variant: 
+        Preferred by: ${(data.preferencePercentA * 100).toFixed(2)}%\n` +
+        `Avg time: ${data.avgSessionTimeA.toFixed(1)}s\n`
+    })
+    .catch(err => {
+      console.error('Error fetching metrics:', err);
+      document.getElementById('statsText').innerText = 'Stats unavailable';
+    });
+}
+
+
+
+fetchAndDisplayMetrics();
+
+// Add button click handler for switching variant
+document.addEventListener('DOMContentLoaded', () => {
+  const switchBtn = document.getElementById('switchVariantBtn');
+  if (switchBtn) {
+    switchBtn.addEventListener('click', () => {
+      window.location.href = '/b.html';  // Redirect to light theme
+    });
+
+    // Optionally: subtle hover effect
+    switchBtn.addEventListener('mouseover', () => {
+      switchBtn.style.backgroundColor = 'rgba(255,255,255,0.35)';
+    });
+    switchBtn.addEventListener('mouseout', () => {
+      switchBtn.style.backgroundColor = 'rgba(255,255,255,0.2)';
+    });
+  }
+});
+
+</script>
+    </body>
+    </html>

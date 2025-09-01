@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+<!-- Google Tag Manager -->
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+  new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+  j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+  'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+  })(window,document,'script','dataLayer','GTM-PQ4WPSNL');</script>
+  <!-- End Google Tag Manager -->
+
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Rishab Aggarwal | Product Manager Portfolio</title>
+<style>
+  body, html {
+    margin: 0; padding: 0; height: 100%;
+    font-family: Arial, sans-serif;
+    background: #f0f0f0;
+  }
+  /* Centered welcome note */
+  #welcome-note {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    max-width: 90vw;
+    padding: 20px 30px;
+    background: rgba(0, 0, 0, 0.75);
+    color: white;
+    font-size: 1.2rem;
+    font-weight: 600;
+    border-radius: 15px;
+    text-align: center;
+    transform: translate(-50%, -50%);
+    z-index: 1000;
+    user-select: none;
+    line-height: 1.4;
+  }
+  .container {
+    display: flex;
+    height: 100vh;
+  }
+  .half {
+    position: relative;
+    flex: 1;
+    cursor: pointer;
+    overflow: hidden;
+    border: 1px solid #ccc;
+    transition: filter 0.3s ease;
+  }
+  .half:hover {
+    filter: brightness(0.7);
+  }
+  .half iframe {
+    width: 100%;
+    height: 100vh;
+    border: none;
+    pointer-events: none;
+  }
+  .label {
+    position: absolute;
+    bottom: 12px;
+    left: 50%;
+    transform: translateX(-50%);
+    padding: 6px 14px;
+    font-weight: bold;
+    border-radius: 4px;
+    user-select: none;
+    pointer-events: none;
+    font-size: 1.1rem;
+  }
+  .label.variant-a {
+    background: rgba(10, 10, 10, 0.7);
+    color: white;
+  }
+  .label.variant-b {
+    background: rgba(240, 240, 240, 0.8);
+    color: #222;
+  }
+  @media (max-width: 600px) {
+    .container {
+      flex-direction: column;
+    }
+    .half {
+      height: 50vh;
+    }
+    .half iframe {
+      height: 100%;
+    }
+  }
+</style>
+</head>
+<body>
+
+<!-- Google Tag Manager (noscript) -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-PQ4WPSNL"
+  height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+  <!-- End Google Tag Manager (noscript) -->
+
+  <div id="welcome-note">
+    Welcome to my portfolio! <br>
+    <span style="font-size:16px; font-weight:normal; color:#ffffff;">
+      Select your preferred design language — this also serves as a live preference A/B test.<br>
+    </span>
+    <span style="font-size:14px; font-weight:normal; color:#ffffff;">
+      (Results of the test on the subsequent page)
+    </span>
+  </div>
+<div class="container">
+  <div id="variant1" class="half" title="Choose Dark Theme (Variant A)">
+    <iframe src="/c.html" title="Dark Theme Variant A"></iframe>
+    <div class="label variant-a">Dark Theme [A]</div>
+  </div>
+  <div id="variant2" class="half" title="Choose Light Theme (Variant B)">
+    <iframe src="/b.html" title="Light Theme Variant B"></iframe>
+    <div class="label variant-b">Light Theme [B]</div>
+  </div>
+</div>
+<script>
+  const sessionStart = new Date();
+  const backendURL = 'https://script.google.com/macros/s/AKfycbzV4ZaMyUvnD2K9s_hjLffDb4ZRl9hmb3PBHSMXpZo0azCymSK623_gKRcxzCr-xkVL2Q/exec';  // Replace with your Apps Script URL
+  
+  function generateUserID() {
+    return 'user_' + Math.random().toString(36).substr(2, 9);
+  }
+
+  function sendChoice(chosenVariant) {
+    const sessionEnd = new Date();
+    const sessionDuration = (sessionEnd - sessionStart) / 1000;
+    const data = {
+      userID: generateUserID(),
+      chosenVariant,
+      sessionStart: sessionStart.toISOString(),
+      sessionEnd: sessionEnd.toISOString(),
+      sessionDuration
+    };
+    console.log('Sending user choice data:', data);
+
+    fetch(backendURL, {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify(data)
+    })
+    .then(res => res.json())
+    .then(resp => {
+      console.log('Data sent:', resp);
+      if (chosenVariant === 'variant1') {
+        window.location.href = '/c.html';
+      } else {
+        window.location.href = '/b.html';
+      }
+    })
+    .catch(err => {
+      console.error('Error sending data:', err);
+      if (chosenVariant === 'variant1') {
+        window.location.href = '/c.html';
+      } else {
+        window.location.href = '/b.html';
+      }
+    });
+  }
+
+  document.getElementById('variant1').addEventListener('click', () => sendChoice('variant1'));
+  document.getElementById('variant2').addEventListener('click', () => sendChoice('variant2'));
+</script>
+</body>
+</html>
