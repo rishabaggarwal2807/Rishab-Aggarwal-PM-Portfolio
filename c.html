@@ -519,6 +519,23 @@
       }
     });
 
+
+        // ✅ Fetch & display stats
+  fetch("https://your-proxy-worker-url.workers.dev/")
+    .then(r => r.json())
+    .then(data => {
+      document.getElementById("stats").innerText =
+        `Variant A: ${(data.preferencePercentA*100).toFixed(1)}% 
+         | Variant B: ${(data.preferencePercentB*100).toFixed(1)}% 
+         | Users: ${data.totalUsers}`;
+    })
+    .catch(err => {
+      document.getElementById("stats").innerText = "Error loading stats";
+      console.error(err);
+    });
+
+       
+
     // ✅ Session Tracking Script
     (function() {
       const VARIANT = "variant1"; // This is c.html (variant1)
@@ -566,6 +583,7 @@
   </script>
 </body>
 </html>
+
 
 
 
