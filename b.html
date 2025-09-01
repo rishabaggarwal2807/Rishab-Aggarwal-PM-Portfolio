@@ -546,7 +546,7 @@
   </footer>
 
   <script>
-    // Existing animation observer
+     // Existing animation observer
     document.addEventListener("DOMContentLoaded", () => {
       const animatedEls = document.querySelectorAll('.animated');
       const observer = new IntersectionObserver((entries) => {
@@ -585,22 +585,27 @@
 
     // ✅ Fetch and display Variant B stats
     const backendURL = 'https://ab-proxy.rishab-aggarwal28.workers.dev';
-    function fetchAndDisplayMetrics() {
-      fetch(backendURL)
-        .then(res => res.json())
-        .then(data => {
-          document.getElementById('statsText').innerText =
-            `A/B Test
-            This Variant: 
-            Preferred by ${(data.preferencePercentB * 100).toFixed(2)}%
-            Avg time: ${data.avgSessionTimeB.toFixed(1)}s`;
-        })
-        .catch(err => {
-          console.error('Error fetching metrics:', err);
-          document.getElementById('statsText').innerText = 'Stats unavailable';
-        });
-    }
-    fetchAndDisplayMetrics();
+
+function fetchAndDisplayMetrics() {
+  fetch(backendURL)
+    .then(res => res.json())
+    .then(data => {
+      const prefA = (data.preferencePercentA * 100);  // Variant A percentage from backend
+      const prefB = 100 - prefA;                       // Compute Variant B percentage
+
+      document.getElementById('statsText').innerText =
+        `A/B Test\n` +
+        `This Variant:\n` +
+        `Preferred by: ${prefB.toFixed(2)}%\n` +
+        `Avg time: ${data.avgSessionTimeB.toFixed(1)}s`;
+    })
+    .catch(err => {
+      console.error('Error fetching metrics:', err);
+      document.getElementById('statsText').innerText = 'Stats unavailable';
+    });
+}
+
+fetchAndDisplayMetrics();
 
     document.addEventListener('DOMContentLoaded', () => {
       const switchBtn = document.getElementById('switchVariantBtn');
@@ -616,62 +621,95 @@
         });
       }
     });
-
-    // ==============================
-    // ✅ Session Tracking Script
-    // ==============================
     (function() {
-      const VARIANT = "variant2"; // This is b.html (variant2)
-      const backendURL = "https://ab-proxy.rishab-aggarwal28.workers.dev";
+  // Identify variant by current page
+  const path = window.location.pathname.toLowerCase();
+  let VARIANT = null;
+  if (path.endsWith('b.html')) VARIANT = 'variant2';
+  else if (path.endsWith('c.html')) VARIANT = 'variant1';
+  else VARIANT = 'index';
 
-      // Ensure we have a userID
-      if (!sessionStorage.getItem("userID")) {
-        sessionStorage.setItem("userID", "user_" + Math.random().toString(36).substr(2, 9));
-      }
-      const userID = sessionStorage.getItem("userID");
+  const backendURL = 'https://ab-proxy.rishab-aggarwal28.workers.dev';
 
-      // Store session start time (first time only)
-      if (!sessionStorage.getItem("sessionStart")) {
-        sessionStorage.setItem("sessionStart", new Date().toISOString());
-      }
+  // LocalStorage helpers
+  function lsGet(k) { return localStorage.getItem(k); }
+  function lsSet(k, v) { localStorage.setItem(k, v); }
 
-      // Track time spent per variant
-      if (!sessionStorage.getItem("variantTimes")) {
-        sessionStorage.setItem("variantTimes", JSON.stringify({variant1: 0, variant2: 0}));
-      }
+  // Initialize user/session identifiers and time tracking
+  if (!lsGet('ab_userID')) lsSet('ab_userID', 'user_' + Math.random().toString(36).substr(2,9));
+  if (!lsGet('ab_sessionStart')) lsSet('ab_sessionStart', new Date().toISOString());
+  if (!lsGet('ab_variantTimes')) lsSet('ab_variantTimes', JSON.stringify({variant1:0, variant2:0}));
+  if (!lsGet('ab_logged')) lsSet('ab_logged', 'false');
 
-      let variantTimes = JSON.parse(sessionStorage.getItem("variantTimes"));
-      let startTime = Date.now();
+  const userID = lsGet('ab_userID');
+  const sessionStart = lsGet('ab_sessionStart');
+  let variantTimes = JSON.parse(lsGet('ab_variantTimes'));
+  let startTime = Date.now();
 
-      // Save time spent when leaving this page
-      function saveTime() {
-        const duration = (Date.now() - startTime) / 1000; // in seconds
-        variantTimes[VARIANT] += duration;
-        sessionStorage.setItem("variantTimes", JSON.stringify(variantTimes));
-      }
+  // Save session elapsed time for current variant
+  function saveTime() {
+    const now = Date.now();
+    const elapsed = (now - startTime)/1000;
+    if (VARIANT === 'variant1' || VARIANT === 'variant2') {
+      variantTimes[VARIANT] = (variantTimes[VARIANT] || 0) + elapsed;
+      lsSet('ab_variantTimes', JSON.stringify(variantTimes));
+    }
+    startTime = now;
+  }
 
-      window.addEventListener("beforeunload", function(event) {
-        saveTime();
+  // Build full payload for sending
+  function buildPayload() {
+    const times = JSON.parse(lsGet('ab_variantTimes'));
+    const chosenVariant = (times.variant1 >= times.variant2) ? 'variant1' : 'variant2';
+    const sessionDuration = times.variant1 + times.variant2;
+    return {
+      userID,
+      chosenVariant,
+      sessionStart,
+      sessionEnd: new Date().toISOString(),
+      sessionDuration: sessionDuration.toFixed(2)
+    };
+  }
 
-        // Decide which variant won
-        const times = JSON.parse(sessionStorage.getItem("variantTimes"));
-        const chosenVariant = times.variant1 >= times.variant2 ? "variant1" : "variant2";
-        const sessionStart = sessionStorage.getItem("sessionStart");
-        const sessionEnd = new Date().toISOString();
-        const sessionDuration = times.variant1 + times.variant2;
+  // Send full session data to backend
+  function sendUpdate() {
+    if (lsGet('ab_logged') === 'true') return; // already sent final
+    saveTime();
 
-        // Send final log once
-        navigator.sendBeacon(backendURL, JSON.stringify({
-          userID,
-          chosenVariant,
-          sessionStart,
-          sessionEnd,
-          sessionDuration
-        }));
-      });
-    })();
+    const payload = buildPayload();
+    fetch(backendURL, {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify(payload),
+      keepalive: true
+    }).catch(() => {});
+  }
+
+  // Periodic send every 10 seconds
+  setInterval(() => {
+    if (VARIANT !== 'index') sendUpdate();
+  }, 10000);
+
+  // On unload, send one last update
+  window.addEventListener('beforeunload', () => {
+    if (VARIANT !== 'index') sendUpdate();
+  });
+
+  // In index.html: handle variant click navigation
+  if (VARIANT === 'index') {
+    document.getElementById('variant1').addEventListener('click', () => {
+      window.location.href = 'c.html';
+    });
+    document.getElementById('variant2').addEventListener('click', () => {
+      window.location.href = 'b.html';
+    });
+  }
+
+})();
+    
   </script>
   </body>
 </html>
+
 
 
