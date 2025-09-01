@@ -586,17 +586,17 @@
     // ✅ Fetch and display Variant B stats
     const backendURL = 'https://ab-proxy.rishab-aggarwal28.workers.dev';
 
-function fetchAndDisplayMetrics() {
+   function fetchAndDisplayMetrics() {
   fetch(backendURL)
     .then(res => res.json())
     .then(data => {
-      const prefA = (data.preferencePercentA * 100);  // Variant A percentage from backend
-      const prefB = 100 - prefA;                       // Compute Variant B percentage
+      const prefA = Math.round(data.preferencePercentA * 100);  // Round variant A percentage to integer
+      const prefB = 100 - prefA;                                // Calculate variant B as complement
 
       document.getElementById('statsText').innerText =
         `A/B Test\n` +
         `This Variant:\n` +
-        `Preferred by: ${prefB.toFixed(2)}%\n` +
+        `Preferred by: ${prefB}%\n` +                          // Show variant B percentage with no decimals
         `Avg time: ${data.avgSessionTimeB.toFixed(1)}s`;
     })
     .catch(err => {
@@ -710,6 +710,7 @@ fetchAndDisplayMetrics();
   </script>
   </body>
 </html>
+
 
 
 
