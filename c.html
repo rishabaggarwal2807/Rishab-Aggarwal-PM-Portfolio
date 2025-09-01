@@ -558,7 +558,97 @@
     }
   });
 
+ // ==============================
+  // ✅ Session Tracking Script (Fixed)
+  // ==============================
+  (function() {
+  // Identify variant by current page
+  const path = window.location.pathname.toLowerCase();
+  let VARIANT = null;
+  if (path.endsWith('b.html')) VARIANT = 'variant2';
+  else if (path.endsWith('c.html')) VARIANT = 'variant1';
+  else VARIANT = 'index';
+
+  const backendURL = 'https://ab-proxy.rishab-aggarwal28.workers.dev';
+
+  // LocalStorage helpers
+  function lsGet(k) { return localStorage.getItem(k); }
+  function lsSet(k, v) { localStorage.setItem(k, v); }
+
+  // Initialize user/session identifiers and time tracking
+  if (!lsGet('ab_userID')) lsSet('ab_userID', 'user_' + Math.random().toString(36).substr(2,9));
+  if (!lsGet('ab_sessionStart')) lsSet('ab_sessionStart', new Date().toISOString());
+  if (!lsGet('ab_variantTimes')) lsSet('ab_variantTimes', JSON.stringify({variant1:0, variant2:0}));
+  if (!lsGet('ab_logged')) lsSet('ab_logged', 'false');
+
+  const userID = lsGet('ab_userID');
+  const sessionStart = lsGet('ab_sessionStart');
+  let variantTimes = JSON.parse(lsGet('ab_variantTimes'));
+  let startTime = Date.now();
+
+  // Save session elapsed time for current variant
+  function saveTime() {
+    const now = Date.now();
+    const elapsed = (now - startTime)/1000;
+    if (VARIANT === 'variant1' || VARIANT === 'variant2') {
+      variantTimes[VARIANT] = (variantTimes[VARIANT] || 0) + elapsed;
+      lsSet('ab_variantTimes', JSON.stringify(variantTimes));
+    }
+    startTime = now;
+  }
+
+  // Build full payload for sending
+  function buildPayload() {
+    const times = JSON.parse(lsGet('ab_variantTimes'));
+    const chosenVariant = (times.variant1 >= times.variant2) ? 'variant1' : 'variant2';
+    const sessionDuration = times.variant1 + times.variant2;
+    return {
+      userID,
+      chosenVariant,
+      sessionStart,
+      sessionEnd: new Date().toISOString(),
+      sessionDuration: sessionDuration.toFixed(2)
+    };
+  }
+
+  // Send full session data to backend
+  function sendUpdate() {
+    if (lsGet('ab_logged') === 'true') return; // already sent final
+    saveTime();
+
+    const payload = buildPayload();
+    fetch(backendURL, {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify(payload),
+      keepalive: true
+    }).catch(() => {});
+  }
+
+  // Periodic send every 10 seconds
+  setInterval(() => {
+    if (VARIANT !== 'index') sendUpdate();
+  }, 10000);
+
+  // On unload, send one last update
+  window.addEventListener('beforeunload', () => {
+    if (VARIANT !== 'index') sendUpdate();
+  });
+
+  // In index.html: handle variant click navigation
+  if (VARIANT === 'index') {
+    document.getElementById('variant1').addEventListener('click', () => {
+      window.location.href = 'c.html';
+    });
+    document.getElementById('variant2').addEventListener('click', () => {
+      window.location.href = 'b.html';
+    });
+  }
+
+})();
+
 </script>
 </body>
 </html>
+
 
