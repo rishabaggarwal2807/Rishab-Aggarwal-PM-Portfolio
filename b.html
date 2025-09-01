@@ -567,56 +567,111 @@
     window.addEventListener('load', setHeaderOffset);
     window.addEventListener('resize', setHeaderOffset);
 
-      // Hide metrics if inside iframe (optional, if you preview this inside iframe)
-      if (window.self !== window.top) {
+    // Hide metrics if inside iframe
+    if (window.self !== window.top) {
       const metrics = document.getElementById('stats');
       if (metrics) metrics.style.display = 'none';
     }
 
     document.addEventListener('DOMContentLoaded', () => {
-    const closeBtn = document.getElementById('closeMetricsBtn');
-    const metricsBox = document.getElementById('stats');
-
-    if (closeBtn && metricsBox) {
-      closeBtn.addEventListener('click', () => {
-        metricsBox.style.display = 'none';
-      });
-    }
-});
+      const closeBtn = document.getElementById('closeMetricsBtn');
+      const metricsBox = document.getElementById('stats');
+      if (closeBtn && metricsBox) {
+        closeBtn.addEventListener('click', () => {
+          metricsBox.style.display = 'none';
+        });
+      }
+    });
 
     // ✅ Fetch and display Variant B stats
-    const backendURL = 'https://ab-proxy.rishab-aggarwal28.workers.dev'; // same as index.html
-      function fetchAndDisplayMetrics() {
-    fetch(backendURL)
-      .then(res => res.json())
-      .then(data => {
-        document.getElementById('statsText').innerText =
-          `A/B Test
-          This Variant: 
-          Preferred by ${(data.preferencePercentB * 100).toFixed(2)}%\nAvg time: ${data.avgSessionTimeB.toFixed(1)}s`;
-      })
-      .catch(err => {
-        console.error('Error fetching metrics:', err);
-        document.getElementById('statsText').innerText = 'Stats unavailable';
-      });
-  }
+    const backendURL = 'https://ab-proxy.rishab-aggarwal28.workers.dev';
+    function fetchAndDisplayMetrics() {
+      fetch(backendURL)
+        .then(res => res.json())
+        .then(data => {
+          document.getElementById('statsText').innerText =
+            `A/B Test
+            This Variant: 
+            Preferred by ${(data.preferencePercentB * 100).toFixed(2)}%
+            Avg time: ${data.avgSessionTimeB.toFixed(1)}s`;
+        })
+        .catch(err => {
+          console.error('Error fetching metrics:', err);
+          document.getElementById('statsText').innerText = 'Stats unavailable';
+        });
+    }
     fetchAndDisplayMetrics();
 
     document.addEventListener('DOMContentLoaded', () => {
-    const switchBtn = document.getElementById('switchVariantBtn');
-    if (switchBtn) {
-      switchBtn.addEventListener('click', () => {
-        window.location.href = 'c.html'; // Redirect to Dark Theme
+      const switchBtn = document.getElementById('switchVariantBtn');
+      if (switchBtn) {
+        switchBtn.addEventListener('click', () => {
+          window.location.href = 'c.html'; // Redirect to Dark Theme
+        });
+        switchBtn.addEventListener('mouseover', () => {
+          switchBtn.style.backgroundColor = 'rgba(255,255,255,0.35)';
+        });
+        switchBtn.addEventListener('mouseout', () => {
+          switchBtn.style.backgroundColor = 'rgba(255,255,255,0.6)';
+        });
+      }
+    });
+
+    // ==============================
+    // ✅ Session Tracking Script
+    // ==============================
+    (function() {
+      const VARIANT = "variant2"; // This is b.html (variant2)
+      const backendURL = "https://ab-proxy.rishab-aggarwal28.workers.dev";
+
+      // Ensure we have a userID
+      if (!sessionStorage.getItem("userID")) {
+        sessionStorage.setItem("userID", "user_" + Math.random().toString(36).substr(2, 9));
+      }
+      const userID = sessionStorage.getItem("userID");
+
+      // Store session start time (first time only)
+      if (!sessionStorage.getItem("sessionStart")) {
+        sessionStorage.setItem("sessionStart", new Date().toISOString());
+      }
+
+      // Track time spent per variant
+      if (!sessionStorage.getItem("variantTimes")) {
+        sessionStorage.setItem("variantTimes", JSON.stringify({variant1: 0, variant2: 0}));
+      }
+
+      let variantTimes = JSON.parse(sessionStorage.getItem("variantTimes"));
+      let startTime = Date.now();
+
+      // Save time spent when leaving this page
+      function saveTime() {
+        const duration = (Date.now() - startTime) / 1000; // in seconds
+        variantTimes[VARIANT] += duration;
+        sessionStorage.setItem("variantTimes", JSON.stringify(variantTimes));
+      }
+
+      window.addEventListener("beforeunload", function(event) {
+        saveTime();
+
+        // Decide which variant won
+        const times = JSON.parse(sessionStorage.getItem("variantTimes"));
+        const chosenVariant = times.variant1 >= times.variant2 ? "variant1" : "variant2";
+        const sessionStart = sessionStorage.getItem("sessionStart");
+        const sessionEnd = new Date().toISOString();
+        const sessionDuration = times.variant1 + times.variant2;
+
+        // Send final log once
+        navigator.sendBeacon(backendURL, JSON.stringify({
+          userID,
+          chosenVariant,
+          sessionStart,
+          sessionEnd,
+          sessionDuration
+        }));
       });
-      switchBtn.addEventListener('mouseover', () => {
-        switchBtn.style.backgroundColor = 'rgba(255,255,255,0.35)';
-      });
-      switchBtn.addEventListener('mouseout', () => {
-        switchBtn.style.backgroundColor = 'rgba(255,255,255,0.6)';
-      });
-    }
-});
+    })();
   </script>
   </body>
 </html>
+
 
